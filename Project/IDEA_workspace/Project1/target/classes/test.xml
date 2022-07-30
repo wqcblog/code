@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean class="com.test.bean.Student" name="student" init-method="init" destroy-method="destroy" depends-on="card">
+        <property name="name" value="小明"/>
+<!--name必须要有setName方法-->
+        <property name="age" value="10"/>
+        <property name="card" ref="card"/>
+        <!--引用类型的注入，依照card bean属性注入，默认单例-->
+        <property name="list">
+            <list>
+                <value>小明</value>
+                <value>小蓝</value>
+            </list>
+            <!--list可换为array，array会自动转换为list-->
+        </property>
+        <property name="map">
+            <map>
+                <entry key="语文" value="100"/>
+                <entry key="数学" value="100"/>
+            </map>
+        </property>
+    </bean>
+<!--name(或id)只能唯一使用,class指定class文件路径-->
+<!--默认的scope属性是singleton(单例模式，每次获取相同的对象)，一开始就被创建，Bean会被IoC容器存储，只要容器没有被销毁。可修改模式为prototype(原型模式)，相当于new一个新对象，并不会被存储-->
+<!--无参构造方法会默认自动调用，可手动指定初始方法与销毁方法，构造后会调用初始方法，容器关闭会调用销毁方法-->
+<!--可设置depends-on进行bean顺序的设置-->
+    <bean name="card" class="com.test.bean.Card"/>
+</beans>
